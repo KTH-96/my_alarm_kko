@@ -38,7 +38,7 @@ public class OAuthService {
         this.oAuthRepository = oAuthRepository;
     }
 
-    public void getAccessToken(String code) {
+    public OAuthToken getAccessToken(String code) {
         log.info("토큰 발급 시작");
         HttpHeaders header = new HttpHeaders();
         header.set("Content-Type", APP_TYPE_URL_ENCODED);
@@ -63,7 +63,11 @@ public class OAuthService {
                 .refreshToken(json.get("refresh_token").toString())
                 .build();
 
-        oAuthRepository.save(oAuth);
         log.info("토큰 accessToken = {}, refreshToken = {}", oAuth.getAccessToken(), oAuth.getRefreshToken());
+        return oAuth;
+    }
+
+    public void saveTokens(OAuthToken oAuthTokens) {
+        oAuthRepository.save(oAuthTokens);
     }
 }

@@ -1,5 +1,7 @@
 package com.myproject.alarm.web.controller;
 
+import com.myproject.alarm.domain.oauth.OAuthToken;
+import com.myproject.alarm.service.MessageService;
 import com.myproject.alarm.service.OAuthService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,9 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class OAuthController {
     private final OAuthService oAuthService;
+    private final MessageService messageService;
 
     @GetMapping("/oauth/kakao")
     public void getKakaoToken(@RequestParam("code") String code) {
-        oAuthService.getAccessToken(code);
+        OAuthToken oAuthTokens = oAuthService.getAccessToken(code);
+        oAuthService.saveTokens(oAuthTokens);
+        messageService.sendTestMessage();
     }
 }
