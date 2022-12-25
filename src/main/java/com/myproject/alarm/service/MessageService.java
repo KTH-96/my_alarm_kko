@@ -2,6 +2,7 @@ package com.myproject.alarm.service;
 
 import static com.myproject.alarm.utils.Constant.APP_TYPE_URL_ENCODED;
 import static com.myproject.alarm.utils.Constant.MESSAGE_SEND_URL;
+import static com.myproject.alarm.utils.Constant.SUCCESS;
 
 import com.myproject.alarm.domain.message.Url;
 import com.myproject.alarm.domain.message.TextMessage;
@@ -58,7 +59,7 @@ public class MessageService {
 
     //TODO: 예외처리
     private void checkSuccess(String result_code) {
-        if (!result_code.equals("0")) {
+        if (!result_code.equals(SUCCESS)) {
             log.info("메세지 보내기에 실패했습니다.");
             return;
         }
