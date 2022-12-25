@@ -25,7 +25,7 @@ public class WeatherService {
 
     private WebDriver driver;
 
-    public void startProcess() {
+    public WeatherInfo crawlingWeatherData() {
 //        Path path = Paths.get("src", "main", "resources", "chrome", "chromedriver.exe");
         System.setProperty("webdriver.chrome.driver",
                 "/Users/taehyun/IdeaProjects/alarm/src/main/resources/chrome/chromedriver");
@@ -41,11 +41,11 @@ public class WeatherService {
         driver = new ChromeDriver(chromeOptions);
 
         //TODO: 예외처리 필요
-        getWeatherInfo();
-
+        WeatherInfo weatherInfo = getWeatherInfo();
 
         driver.close();
         driver.quit();
+        return weatherInfo;
     }
 
     private WeatherInfo getWeatherInfo() {
@@ -55,8 +55,15 @@ public class WeatherService {
                 ExpectedConditions.presenceOfElementLocated(By.id("search"))
         );
 
-        WebElement element = driver.findElement(By.id("wob_tm"));
-        log.info("크롤링한 데이터 = {}", element.getText());
-        return new WeatherInfo();
+        WebElement nowTemperature = driver.findElement(By.id("wob_tm"));
+        log.info("현재 날씨 = {}", nowTemperature.getText());
+        WebElement todayTemperature = driver.findElement(By.id("wob_dp"))
+                .findElement(By.className("wNE31c"));
+        log.info("오늘 최고 최저 온도 = {}", todayTemperature.getText());
+
+        return WeatherInfo.builder()
+                .nowTemperature(nowTemperature.getText())
+                .todayTemperature(todayTemperature.getText())
+                .build();
     }
 }
