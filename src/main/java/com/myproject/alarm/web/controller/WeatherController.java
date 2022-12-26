@@ -12,6 +12,6 @@ public class WeatherController {
 
     @GetMapping("/weather")
     public void weather() {
-        weatherService.startProcess();
+        weatherService.crawlingWeatherData();
     }
 }

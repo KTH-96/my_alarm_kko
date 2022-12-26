@@ -26,7 +26,6 @@ public class WeatherService {
     private WebDriver driver;
 
     public WeatherInfo crawlingWeatherData() {
-//        Path path = Paths.get("src", "main", "resources", "chrome", "chromedriver.exe");
         System.setProperty("webdriver.chrome.driver",
                 "/Users/taehyun/IdeaProjects/alarm/src/main/resources/chrome/chromedriver");
 
@@ -51,14 +50,18 @@ public class WeatherService {
     private WeatherInfo getWeatherInfo() {
         driver.get(WEATHER_DAEJEON_URL);
         WebDriverWait driverWait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
         driverWait.until(
-                ExpectedConditions.presenceOfElementLocated(By.id("search"))
+                ExpectedConditions.presenceOfElementLocated(By.tagName("body"))
         );
 
-        WebElement nowTemperature = driver.findElement(By.id("wob_tm"));
+        WebElement nowTemperature = driver.findElement(By.xpath(
+                "//*[@id=\"main_pack\"]/section[1]/div[1]/div[2]/div[1]/div[1]/div/"
+                        + "div[2]/div/div[1]/div[1]/div[2]/strong"));
         log.info("현재 날씨 = {}", nowTemperature.getText());
-        WebElement todayTemperature = driver.findElement(By.id("wob_dp"))
-                .findElement(By.className("wNE31c"));
+        WebElement todayTemperature = driver.findElement(By.xpath(
+                "//*[@id=\"main_pack\"]/section[1]/div[1]/div[2]/div[5]/div[1]/div/"
+                        + "div[2]/ul/li[1]/div/div[3]/span"));
         log.info("오늘 최고 최저 온도 = {}", todayTemperature.getText());
 
         return WeatherInfo.builder()

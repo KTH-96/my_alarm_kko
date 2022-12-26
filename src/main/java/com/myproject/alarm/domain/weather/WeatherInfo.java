@@ -24,9 +24,9 @@ public class WeatherInfo {
     }
 
     private void divideString(String todayTemperature) {
-        StringTokenizer st = new StringTokenizer(todayTemperature, "°");
-        this.todayHighTemperature = st.nextToken();
+        StringTokenizer st = new StringTokenizer(todayTemperature, "/");
         this.todayLowTemperature = st.nextToken();
+        this.todayHighTemperature = st.nextToken();
     }
 
     //TODO: 예외처리
