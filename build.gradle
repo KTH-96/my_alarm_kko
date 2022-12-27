@@ -17,6 +17,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.json:json:20220924'
 	implementation 'org.seleniumhq.selenium:selenium-java:4.7.1'
+	implementation 'org.springframework:spring-context:6.0.3'
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'

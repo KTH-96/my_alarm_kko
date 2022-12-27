@@ -22,4 +22,9 @@ public class OAuthController {
         oAuthService.saveTokens(oAuthTokens);
         messageService.sendTestMessage();
     }
+
+    @GetMapping("/update")
+    public void getUpdateAccessToken() {
+        oAuthService.updateAccessToken();
+    }
 }

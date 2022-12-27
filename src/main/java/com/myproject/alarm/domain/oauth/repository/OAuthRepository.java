@@ -15,7 +15,15 @@ public class OAuthRepository {
         store.put("refreshToken", oAuth.getRefreshToken());
     }
 
+    public void updateAccessToken(String accessToken) {
+        store.put("accessToken", accessToken);
+    }
+
     public String findAccessToken() {
         return store.get("accessToken");
+    }
+
+    public String findRefreshToken() {
+        return store.get("refreshToken");
     }
 }

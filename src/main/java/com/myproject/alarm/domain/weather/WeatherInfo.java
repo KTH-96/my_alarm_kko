@@ -1,5 +1,7 @@
 package com.myproject.alarm.domain.weather;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -37,5 +39,18 @@ public class WeatherInfo {
         if (todayTemperature.isEmpty()) {
             log.info("오늘온도 없음");
         }
+    }
+
+    public String createWeatherInfoText() {
+        StringBuilder sb = new StringBuilder();
+        List<String> infoList = new ArrayList<>();
+        infoList.add(nowTemperature);
+        infoList.add(todayLowTemperature);
+        infoList.add(todayHighTemperature);
+        for (String info : infoList) {
+            StringTokenizer st = new StringTokenizer(info, "\n");
+            sb.append(st.nextToken()).append(": ").append(st.nextToken()).append("\n");
+        }
+        return sb.toString();
     }
 }

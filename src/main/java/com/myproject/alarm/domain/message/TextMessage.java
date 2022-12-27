@@ -1,5 +1,6 @@
 package com.myproject.alarm.domain.message;
 
+import com.myproject.alarm.domain.weather.WeatherInfo;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,6 +32,15 @@ public class TextMessage {
                 .text("테스트 메세지 입니다.")
                 .link(Url.createTestUrl())
                 .buttonTitle("Url 링크")
+                .build();
+    }
+
+    public static TextMessage createWeatherInfoMessage(WeatherInfo weatherInfo) {
+        return TextMessage.builder()
+                .objectType("text")
+                .text(weatherInfo.createWeatherInfoText())
+                .link(Url.createWeatherUrl())
+                .buttonTitle("네이버 날씨")
                 .build();
     }
 

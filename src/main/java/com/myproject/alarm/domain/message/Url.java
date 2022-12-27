@@ -1,5 +1,8 @@
 package com.myproject.alarm.domain.message;
 
+import static com.myproject.alarm.utils.Constant.*;
+
+import com.myproject.alarm.utils.Constant;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,6 +28,13 @@ public class Url {
         return Url.builder()
                 .webUrl("https://www.naver.com/")
                 .mobileUrl("https://www.naver.com/")
+                .build();
+    }
+
+    public static Url createWeatherUrl() {
+        return Url.builder()
+                .webUrl(WEATHER_DAEJEON_URL)
+                .mobileUrl(WEATHER_DAEJEON_URL)
                 .build();
     }
 
