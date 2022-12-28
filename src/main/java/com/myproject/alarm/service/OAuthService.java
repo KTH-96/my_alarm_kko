@@ -93,4 +93,27 @@ public class OAuthService {
 
         log.info("토큰 accessToken = {} ", json.get("access_token").toString());
     }
+
+    public void updateRefreshToken() {
+        log.info("리프레쉬 토큰 갱신 시작");
+        HttpHeaders header = new HttpHeaders();
+        header.set("Content-Type", APP_TYPE_URL_ENCODED);
+
+        MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>();
+        parameters.add("grant_type", "refresh_token");
+        parameters.add("client_id", client_id);
+        parameters.add("refresh_token", oAuthRepository.findRefreshToken());
+        parameters.add("client_secret", client_secrete);
+
+        HttpEntity<?> requestEntity = new HttpEntity<>(parameters, header);
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response =
+                restTemplate.exchange(ACCESS_TOKEN_URL, HttpMethod.POST, requestEntity, String.class);
+
+        JSONObject json = new JSONObject(response.getBody());
+        oAuthRepository.updateRefreshToken(json.get("refresh_token").toString());
+
+        log.info("토큰 refresh_token = {} ", json.get("refresh_token").toString());
+    }
 }

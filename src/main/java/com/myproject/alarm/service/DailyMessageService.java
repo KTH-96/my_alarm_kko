@@ -25,4 +25,9 @@ public class DailyMessageService {
         WeatherInfo weatherInfo = weatherService.crawlingWeatherData();
         messageService.sendWeatherInfo(accessToken, weatherInfo);
     }
+
+    @Scheduled(cron = "0 0 6 20 * ?")
+    public void updateRefreshToken() {
+        oAuthService.updateRefreshToken();
+    }
 }
