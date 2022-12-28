@@ -26,15 +26,6 @@ public class TextMessage {
         this.buttonTitle = buttonTitle;
     }
 
-    public static TextMessage createTestMessage() {
-        return TextMessage.builder()
-                .objectType("text")
-                .text("테스트 메세지 입니다.")
-                .link(Url.createTestUrl())
-                .buttonTitle("Url 링크")
-                .build();
-    }
-
     public static TextMessage createWeatherInfoMessage(WeatherInfo weatherInfo) {
         return TextMessage.builder()
                 .objectType("text")

@@ -7,7 +7,7 @@
 <body>
     <h2>
         <a th:href="@{'https://kauth.kakao.com/oauth/authorize?client_id='+${@environment.getProperty('client_id')}+'&redirect_uri='+${@environment.getProperty('redirect_url')}+'&response_type=code&scope=talk_message'}">
-            나에게 메세지 보내기 template
+            카카오 OAuth 토큰 발급하기
         </a>
     </h2>
 </body>

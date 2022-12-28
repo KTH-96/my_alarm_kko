@@ -14,13 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class OAuthController {
     private final OAuthService oAuthService;
-    private final MessageService messageService;
 
     @GetMapping("/oauth/kakao")
     public void getKakaoToken(@RequestParam("code") String code) {
         OAuthToken oAuthTokens = oAuthService.getAccessToken(code);
         oAuthService.saveTokens(oAuthTokens);
-        messageService.sendTestMessage();
     }
 
     @GetMapping("/update")
