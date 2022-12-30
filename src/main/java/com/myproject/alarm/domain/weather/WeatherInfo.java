@@ -1,5 +1,7 @@
 package com.myproject.alarm.domain.weather;
 
+import com.myproject.alarm.exception.ErrorMessage;
+import com.myproject.alarm.exception.WeatherInfoNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -8,6 +10,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.StringUtils;
 
 @Slf4j
 @Getter
@@ -31,13 +34,10 @@ public class WeatherInfo {
         this.todayHighTemperature = st.nextToken();
     }
 
-    //TODO: 예외처리
     private void validWeatherInfo(String nowTemperature, String todayTemperature) {
-        if (nowTemperature.isEmpty()) {
-            log.info("현재온도 없음");
-        }
-        if (todayTemperature.isEmpty()) {
-            log.info("오늘온도 없음");
+        if (!StringUtils.hasText(nowTemperature) || !StringUtils.hasText(todayTemperature)) {
+            log.info("not found temperature data");
+            throw new WeatherInfoNotFoundException(ErrorMessage.WEATHER_INFO_NOT_FOUND);
         }
     }
 

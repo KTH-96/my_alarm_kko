@@ -1,11 +1,14 @@
 package com.myproject.alarm.domain.message;
 
 import com.myproject.alarm.domain.weather.WeatherInfo;
+import com.myproject.alarm.exception.ErrorMessage;
+import com.myproject.alarm.exception.MessageTemplateException;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.StringUtils;
 
 @Slf4j
 @Getter
@@ -19,7 +22,7 @@ public class TextMessage {
 
     @Builder
     public TextMessage(String objectType, String text, Url link, String buttonTitle) {
-        validTextTemplate(objectType, text, link, buttonTitle);
+        validTextMessageTemplate(objectType, text, link, buttonTitle);
         this.objectType = objectType;
         this.text = text;
         this.link = link;
@@ -35,22 +38,26 @@ public class TextMessage {
                 .build();
     }
 
-    private void validTextTemplate(String objectType, String text, Url link, String buttonTitle) {
-        if (!objectType.equals("text") || objectType.isEmpty()) {
-            log.info("objectType data fail");
-            log.info("objectType = {}", objectType);
+    private void validTextMessageTemplate(String objectType, String text, Url link, String buttonTitle) {
+        if (!objectType.equals("text") || !StringUtils.hasText(objectType)) {
+            templateMessageException("objectType", objectType);
         }
-        if (text.length() > 200 || text.isEmpty()) {
-            log.info("text data fail");
-            log.info("text = {}", text);
+        if (StringUtils.hasText(text)) {
+            templateMessageException("text", text);
         }
-        if (buttonTitle.isEmpty()) {
-            log.info("buttonTitle data fail");
-            log.info("buttonTitle = {}", buttonTitle);
+        if (text.length() > 200) {
+            templateMessageException("text", "text too Long");
         }
         if (!link.hasUrl()) {
-            log.info("link data fail");
-            log.info("webLink = {}, mobileLink = {}", link.getWebUrl(), link.getMobileUrl());
+            templateMessageException("link", link.toString());
         }
+        if (!StringUtils.hasText(buttonTitle)) {
+            templateMessageException("buttonTitle", buttonTitle);
+        }
+    }
+
+    private void templateMessageException(String type, String value) {
+        log.info("{} template error value = {}", type, value);
+        throw new MessageTemplateException(ErrorMessage.MISS_TEMPLATE_VALUE);
     }
 }

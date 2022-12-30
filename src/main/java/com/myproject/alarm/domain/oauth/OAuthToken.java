@@ -1,7 +1,7 @@
 package com.myproject.alarm.domain.oauth;
 
 import com.myproject.alarm.exception.ErrorMessage;
-import com.myproject.alarm.exception.GlobalException;
+import com.myproject.alarm.exception.IssuanceTokenException;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,9 +25,9 @@ public class OAuthToken {
     }
 
     public void validToken(String accessToken, String refreshToken) {
-        if (StringUtils.hasText(accessToken) || StringUtils.hasText(refreshToken)) {
+        if (!StringUtils.hasText(accessToken) || !StringUtils.hasText(refreshToken)) {
             log.info("토큰 발급 실패");
-            throw new GlobalException(ErrorMessage.HAS_NOT_TOKEN);
+            throw new IssuanceTokenException(ErrorMessage.ISSUANCE_NOT_TOKEN);
         }
         log.info("토큰 발급 성공");
     }

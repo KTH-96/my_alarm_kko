@@ -1,7 +1,6 @@
 package com.myproject.alarm.web.controller;
 
 import com.myproject.alarm.domain.oauth.OAuthToken;
-import com.myproject.alarm.service.MessageService;
 import com.myproject.alarm.service.OAuthService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

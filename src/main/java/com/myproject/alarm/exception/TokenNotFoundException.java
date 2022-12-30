@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class GlobalException extends RuntimeException {
+public class TokenNotFoundException extends RuntimeException {
 
     private final ErrorMessage errorMessage;
 }

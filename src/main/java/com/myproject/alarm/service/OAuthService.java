@@ -5,6 +5,9 @@ import static com.myproject.alarm.utils.Constant.APP_TYPE_URL_ENCODED;
 
 import com.myproject.alarm.domain.oauth.OAuthToken;
 import com.myproject.alarm.domain.oauth.repository.OAuthRepository;
+import com.myproject.alarm.exception.ErrorMessage;
+import com.myproject.alarm.exception.TokenNotExpirationException;
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
@@ -112,8 +115,11 @@ public class OAuthService {
                 restTemplate.exchange(ACCESS_TOKEN_URL, HttpMethod.POST, requestEntity, String.class);
 
         JSONObject json = new JSONObject(response.getBody());
-        oAuthRepository.updateRefreshToken(json.get("refresh_token").toString());
+        String refreshToken = Optional.ofNullable(json.get("refresh_token").toString())
+                        .orElseThrow(() -> new TokenNotExpirationException(ErrorMessage.HAS_NOT_EXPIRED));
 
-        log.info("토큰 refresh_token = {} ", json.get("refresh_token").toString());
+        oAuthRepository.updateRefreshToken(refreshToken);
+
+        log.info("토큰 refresh_token = {} ", refreshToken);
     }
 }

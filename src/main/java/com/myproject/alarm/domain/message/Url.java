@@ -1,13 +1,15 @@
 package com.myproject.alarm.domain.message;
 
-import static com.myproject.alarm.utils.Constant.*;
+import static com.myproject.alarm.utils.Constant.WEATHER_DAEJEON_URL;
 
-import com.myproject.alarm.utils.Constant;
+import com.myproject.alarm.exception.ErrorMessage;
+import com.myproject.alarm.exception.LinkNotFoundException;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.StringUtils;
 
 @Slf4j
 @Getter
@@ -24,13 +26,6 @@ public class Url {
         this.mobileUrl = mobileUrl;
     }
 
-    public static Url createTestUrl() {
-        return Url.builder()
-                .webUrl("https://www.naver.com/")
-                .mobileUrl("https://www.naver.com/")
-                .build();
-    }
-
     public static Url createWeatherUrl() {
         return Url.builder()
                 .webUrl(WEATHER_DAEJEON_URL)
@@ -40,22 +35,24 @@ public class Url {
 
     //TODO: 예외처리
     private void validUrl(String webUrl, String mobileUrl) {
-        if (webUrl.isEmpty() || mobileUrl.isEmpty()) {
-            log.info("URL 정보가 들어가 있지 않습니다.");
-            log.info("webUrl = {}", webUrl);
-            log.info("mobileUrl = {}", mobileUrl);
-            return;
+        if (!StringUtils.hasText(webUrl) || !StringUtils.hasText(mobileUrl)) {
+            log.info("Link data not found");
+            throw new LinkNotFoundException(ErrorMessage.LINK_NOT_FOUND);
         }
         log.info("url 정보 주입 성공");
     }
 
     public boolean hasUrl() {
-        if (webUrl.isEmpty() || mobileUrl.isEmpty()) {
-            log.info("URL 정보가 들어가 있지 않습니다.");
-            log.info("webUrl = {}", webUrl);
-            log.info("mobileUrl = {}", mobileUrl);
+        if (!StringUtils.hasText(webUrl) || !StringUtils.hasText(mobileUrl)) {
+            log.info("Link data not found");
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "webUrl= '" + webUrl + '\'' +
+                ", mobileUrl= '" + mobileUrl + '\'';
     }
 }

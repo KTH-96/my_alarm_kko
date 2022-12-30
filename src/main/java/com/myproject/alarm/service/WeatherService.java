@@ -1,16 +1,11 @@
 package com.myproject.alarm.service;
 
-import static com.myproject.alarm.utils.Constant.*;
+import static com.myproject.alarm.utils.Constant.WEATHER_DAEJEON_URL;
 
 import com.myproject.alarm.domain.weather.WeatherInfo;
-import com.myproject.alarm.utils.Constant;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.Duration;
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -36,10 +31,8 @@ public class WeatherService {
         chromeOptions.addArguments("--disable-gpu");//gpu 비활성화
         chromeOptions.addArguments("--blink-settings=imagesEnabled=false");//이미지 다운 안받음
 
-
         driver = new ChromeDriver(chromeOptions);
 
-        //TODO: 예외처리 필요
         WeatherInfo weatherInfo = getWeatherInfo();
 
         driver.close();

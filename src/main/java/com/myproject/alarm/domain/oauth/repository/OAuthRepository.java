@@ -1,10 +1,15 @@
 package com.myproject.alarm.domain.oauth.repository;
 
 import com.myproject.alarm.domain.oauth.OAuthToken;
+import com.myproject.alarm.exception.ErrorMessage;
+import com.myproject.alarm.exception.TokenNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
+@Slf4j
 @Repository
 public class OAuthRepository {
 
@@ -24,10 +29,23 @@ public class OAuthRepository {
     }
 
     public String findAccessToken() {
-        return store.get("accessToken");
+        String token = store.getOrDefault("accessToken", "");
+        if (!StringUtils.hasText(token)) {
+            findTokenException("accessToken");
+        }
+        return token;
     }
 
     public String findRefreshToken() {
-        return store.get("refreshToken");
+        String token = store.getOrDefault("refreshToken", "");
+        if (!StringUtils.hasText(token)) {
+            findTokenException("refreshToken");
+        }
+        return token;
+    }
+
+    public static void findTokenException(String type) {
+        log.info("{} not found error", type);
+        throw new TokenNotFoundException(ErrorMessage.HAS_NOT_TOKEN);
     }
 }
