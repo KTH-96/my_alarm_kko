@@ -34,7 +34,8 @@ public class OAuthService {
 
     public OAuthService(@Value("${oauth2.kakao.client_id}")String client_id,
                         @Value("${oauth2.kakao.client_secrete}")String client_secrete,
-                        @Value("${oauth2.kakao.redirect_url}")String redirect_url, OAuthRepository oAuthRepository) {
+                        @Value("${oauth2.kakao.redirect_url}")String redirect_url,
+                        OAuthRepository oAuthRepository) {
         this.client_id = client_id;
         this.client_secrete = client_secrete;
         this.redirect_url = redirect_url;
